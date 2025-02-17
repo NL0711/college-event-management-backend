@@ -1,10 +1,9 @@
 from flask_restx import Namespace, Resource, fields
-from models import Events, User
+from models import Events, Users
 from flask_jwt_extended import jwt_required
 from flask import request
 
 events_ns = Namespace("events")
-
 events_model = events_ns.model(
   'Events',
   {
@@ -20,11 +19,6 @@ events_model = events_ns.model(
     'image_src': fields.String(),
   }
 )
-
-@events_ns.route("/hello")
-class HelloResource(Resource):
-  def get(self):
-    return {"message": "Hello World"}
     
 @events_ns.route("/")
 class RecipesResource(Resource):
@@ -33,3 +27,12 @@ class RecipesResource(Resource):
     events = Events.query.all()
     return events
 
+users_ns = Namespace("users")
+users_model = users_ns.model(
+  'Users',
+  {
+    'id': fields.Integer(),
+    'username': fields.String(),
+    'password': fields.Integer(),
+  }
+)
