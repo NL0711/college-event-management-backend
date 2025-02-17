@@ -1,7 +1,8 @@
 from flask_restx import Namespace, Resource, fields
 from models import Events, Users
 from flask_jwt_extended import jwt_required
-from flask import request
+from flask import request, jsonify
+from scrape import get_carousel_imgs
 
 events_ns = Namespace("events")
 events_model = events_ns.model(
@@ -36,3 +37,11 @@ users_model = users_ns.model(
     'password': fields.Integer(),
   }
 )
+
+#add resourcw to add/delete users for admin only
+
+class CarouselResource(Resource):
+  def get(self):
+    carousel_img_url = get_carousel_imgs()
+    return jsonify(carousel_img_url)
+  
